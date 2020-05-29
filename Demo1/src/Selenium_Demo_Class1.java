@@ -5,31 +5,55 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.support.ui.Wait;
 //import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class Selenium_Demo_Class1 {
 
@@ -41,16 +65,165 @@ public class Selenium_Demo_Class1 {
 	public static void main(String[] args) throws Exception{
 		
 		// TODO Auto-generated method stub
-		int i=10;
+	
 		
 		  System.setProperty("webdriver.chrome.driver", "C:\\Users\\tyerubandhi\\Downloads\\Selenium_Demo\\chromedriver.exe");  
-		 // WebDriver driver=new ChromeDriver();//
-	
-		 
+		 // WebDriver driver=new ChromeDriver();
+	/*	  driver.get("http://demo.guru99.com/popup.php");			
+	        driver.manage().window().maximize();		
+	                		
+	driver.findElement(By.xpath("//*[contains(@href,'popup.php')]")).click();			
+	        		
+	        String MainWindow=driver.getWindowHandle();		
+	        		
+	        // To handle all new opened window.				
+	            Set<String> s1=driver.getWindowHandles();		
+	        Iterator<String> i1=s1.iterator();		
+	        		
+	        while(i1.hasNext())			
+	        {		
+	            String abc=i1.next();		
+	            		
+	            if(!MainWindow.equalsIgnoreCase(abc))			
+	            {    		
+	                 
+	                    // Switching to Child window
+	                    driver.switchTo().window(abc);	                                                                                                           
+	                    driver.findElement(By.name("emailid")).sendKeys("gaurav.3n@gmail.com");                			
+	                    
+	                    driver.findElement(By.name("btnLogin")).click();			
+	                                 
+				// Closing the Child Window.
+	                        driver.close();		
+	            }		
+	        }		
+	        // Switching to Parent window i.e Main Window.
+	            driver.switchTo().window(MainWindow);	*/
+		 //Assignment question : suppose i have 5 windows...How can i switch to 4th window
 		  
-		 
+		 //Frames
+	            
+	    	   /* driver.get("http://demo.guru99.com/test/guru99home/"); 
+	    	       // navigates to the page consisting an iframe
+
+	    	       driver.manage().window().maximize();
+	    	     
+	    	       //driver.switchTo().frame("a077aa5e"); //switching the frame by ID
+	    	      driver.switchTo().frame(1);//Through indexing--frame index starts from zero
+	    	 List<WebElement>  listofframes=   driver.findElements(By.xpath("//iframe"));
+	    	 System.out.println(listofframes.size());//50 size
+	    	 driver.switchTo().frame(49);
+	    	 driver.switchTo().parentFrame();
+	    	  driver.switchTo().frame(0);
+	    	    WebElement e1=driver.findElement(By.xpath("//iframe[@name='a077aa5e']"));
+	    	     
+	    	      driver.switchTo().frame(e1);
+	    	      
+	    	      
+	    			//System.out.println("********We are switch to the iframe*******");
+	         		driver.findElement(By.xpath("html/body/a/img")).click();
+	      		    //Clicks the iframe
+	           
+	      			System.out.println("*********We are done***************");*/
 		  
+		  //Dropdown handling
 		 
+		  /*
+			driver.get("http://demo.guru99.com/test/newtours/register.php");
+			
+
+			Select drpCountry = new Select(driver.findElement(By.xpath("//select[@name='country']")));
+			drpCountry.selectByVisibleText("ANTARCTICA");
+		
+			Thread.sleep(10000);
+			//Selecting Items in a Multiple SELECT elements
+			
+			driver.get("file:///C:/Users/tyerubandhi/Documents/multiselect.html");
+			Select fruits = new Select(driver.findElement(By.xpath("//select[@id='cars']")));
+			fruits.selectByVisibleText("Volvo");
+			fruits.selectByIndex(2);*/
+		/*	//Handling dynamic tables
+		  driver.get("http://demo.guru99.com/test/web-table-element.php");         
+	        //No.of Columns
+	        List<WebElement>  col = driver.findElements(By.xpath("//div[@id='leftcontainer']/table/thead/tr/th"));
+	        System.out.println("No of cols are : " +col.size()); 
+	        //No.of rows 
+	        List<WebElement>  rows = driver.findElements(By.xpath("//div[@id='leftcontainer']/table/tbody/tr")); 
+	        System.out.println("No of rows are : " + rows.size());
+	        //suppose i want to get 3rd row 3rd cell data
+	    WebElement e1=       driver.findElement(By.xpath("//div[@id='leftcontainer']/table/tbody/tr[3]/td[3]"));
+	      String s1=  e1.getText();
+	      System.out.println(s1);
+	      
+	      //How will you pick of Prev Close value of particular row and particualr column through scanner function
+	      int row_number=5;
+	      int col_number=2;
+	   
+	    String xpath1="//div[@id='leftcontainer']/table/tbody/tr["+row_number+"]/td["+col_number+"]";
+	    	
+	      WebElement e2=       driver.findElement(By.xpath(xpath1));
+	      String s2=  e2.getText();
+	      System.out.println(s2);
+	      //what if new country is added but u dont know that where it will be added then how will you handle it.
+	      driver.get("file:///C:/Users/tyerubandhi/Documents/dynamictable.html");
+	      Thread.sleep(10000);
+	      String name="Ramesh Raman";
+	      String xpath2="//table/tbody/tr/td[text()='"+name;
+	      String xpath3= "']/following-sibling::td" ;
+	      String xpath4=xpath2+xpath3;
+	      WebElement e3=       driver.findElement(By.xpath(xpath4));
+	      String s3=  e3.getText();
+	      System.out.println(s3);
+	      
+	      //Taking Screenshot
+	      //converting driver object to Takescreenshot object
+	      driver.get("https://www.google.com/");
+	      Selenium_Demo_Class1.takeSnapShot(driver, "C:\\Users\\tyerubandhi\\Downloads\\Selenium_Sessions\\Content\\screnshot.png");
+	     //JavaScript Executor
+	  WebElement e=  driver.findElement(By.xpath("//div/a[contains(text(),'Gmail')]"));
+	      JavascriptExecutor js = (JavascriptExecutor)driver;
+	      
+	      js.executeScript("arguments[0].click();", e);
+	      js.executeScript("history.go(0)");   
+	         driver.get("https://www.toolsqa.com/selenium-webdriver/javascript-and-selenium-javascriptexecutor/") ;  
+	      js.executeScript("window.scrollBy(0,600)");
+	      Thread.sleep(10000);*/
+	      //How to scroll till the particular element
+	      
+	//      js.executeScript("arguments[0].scrollIntoView();", Element);
+	 /*           //How to handle Auto suggestions
+	      
+	      driver.get("https://www.google.com/");
+			driver.findElement(By.xpath("//input[@name='q']")).sendKeys("Selenium");
+			
+			*//**
+			 * Example for Visibility of Elements located by
+			 *//*
+			Thread.sleep(10000);
+			List<WebElement> list = driver.findElements(By.xpath("//div/ul[@role='listbox']//li"));
+			
+			System.out.println("Auto Suggest List ::" + list.size());
+			
+			for(int i = 0 ;i< list.size();i++)
+			{
+				System.out.println(list.get(i).getText());
+				
+				if(list.get(i).getText().equals("selenium interview questions"))
+				{
+					list.get(i).click();
+					break;
+				}
+			}
+	            
+	            
+	            
+	            */
+	            
+	            
+	            
+	            
+	            
+	            
 		      //if you want to say i know selenium...u must know locators..
 		  //80% of the selenium delas with locators...
 		// Launch website  
@@ -810,7 +983,7 @@ public static int soujanya(int[] arr){
 */	  
 		//difference between arrays and collection is collection can have objects of different type
 		//but arrays can have only one type of objects.
-		List obj=new ArrayList();
+	/*	List obj=new ArrayList();
 		//ArrayList obj1=new ArrayList();
 		obj.add(1);
 		
@@ -918,11 +1091,446 @@ public static int soujanya(int[] arr){
 	
           s4.remove(0);
           s4.remove("tataji1");
+          */
+         //all the list related classes will allow duplicates
+/*		 LinkedList<String> al=new LinkedList<String>();  
+		  al.add("Ravi");  
+		  al.add("Vijay");  
+		  al.add("Ravi");  
+		  al.add("Ajay");  
+		Iterator itrl=  al.iterator();
+		while(itrl.hasNext()){
+			System.out.println(itrl.next());//curosor at 3rd value
+		}
+		//indexs from o to 3
+		//4 elements are there it will be passed
+		//itr1.next() will give value at oth index and move to cursor to first index
+		//itrl.hasnext()..it will check whether values are present or not from the index at cursor
+		//itr1.next() will give value at 1st index and move to 2nd
+		//itr1.next() move to 3rd //one value is present 
+		  //add operation in different ways
+		  LinkedList<String> ll=new LinkedList<String>();  
+          System.out.println("Initial list of elements: "+ll);  
+           ll.add("Ravi");  
+          ll.add("Vijay"); 
+          ll.add("Ajay");  
+          System.out.println("After invoking add(E e) method: "+ll);  
+          //Adding an element at the specific position  
+          ll.add(1, "Gaurav");  
+          System.out.println("After invoking add(int index, E element) method: "+ll);  
+          LinkedList<String> ll2=new LinkedList<String>();  
+          ll2.add("Sonoo");  
+          ll2.add("Hanumat");  
+          //Adding second list elements to the first list  
+          ll.addAll(ll2);  
+          System.out.println("After invoking addAll(Collection<? extends E> c) method: "+ll);  
+          LinkedList<String> ll3=new LinkedList<String>();  
+          ll3.add("John");  
+          ll3.add("Rahul");  
+          //Adding second list elements to the first list at specific position  
+          ll.addAll(1, ll3);  
+          System.out.println("After invoking addAll(int index, Collection<? extends E> c) method: "+ll);  
+          //Adding an element at the first position  
+          ll.addFirst("Lokesh");  
+          System.out.println("After invoking addFirst(E e) method: "+ll);  
+          //Adding an element at the last position  
+          ll.addLast("Harsh");  
+          System.out.println("After invoking addLast(E e) method: "+ll);  
+          
+          ll.remove(0); 
+          
+          System.out.println("After removing element: "+ll);  
+          //printing in reverse order
+        System.out.println("List iterator");
+       ArrayList<String> linked=new ArrayList<String>();
+       linked.add("tataji");
+       linked.add("ys");
+       
+        ListIterator<String> il3=linked.listIterator(linked.size());
+    
+        while(il3.hasPrevious()){
+        	System.out.println(il3.previous());
+        }
+        System.out.println("descending iterator");
+          Iterator i12=ll.descendingIterator();  
+          while(i12.hasNext())  
+          {  
+              System.out.println(i12.next());  
+          }  
+          
+          System.out.println("List iterator");
+          ListIterator<String> list23=ll.listIterator(ll.size()); 
+  		//n=5 first its starts from 5..now cursor will gone to 4
+  		//5th will be printd
+  		//cursor will be gone to 3 print the value of 4
+  		//cursor will be gone to 2 print the value of 3
+  		//cursor will be gone to 1 print the value of 2
+  		//cursor will be gone to 0 print the value of 1
+  		//cursor will be cone to -1 print the value of 0
+  		//what are components availbel to iterate a list ...
+  		
+          while(list23.hasPrevious())  
+          {  
+              Object str=list23.previous();  
+              System.out.println(str);  
+          }   
+          
+  		
+  		//Vector
+          System.out.println("Talking about the vector");
+          Vector<String> v=new Vector<String>();  
+          v.add("Ayush");  
+          v.add("Amit");  
+          v.add("Ashish");  
+          v.add("Garima");  
+          Iterator<String> itr26=v.iterator();  
+          while(itr26.hasNext()){  
+          System.out.println(itr26.next());  
+          }
+          //Stack
+          System.out.println("Taking about the stack ");
+          Stack<String> stack = new Stack<String>();  
+          stack.push("Ayush");  
+          stack.push("Garvit");  
+          stack.push("Amit");  
+          stack.push("Ashish");  
+          stack.push("Garima");  
+          System.out.println("pop");
+        System.out.println( stack.pop() ); 
+          Iterator<String> itr27=stack.iterator();  
+          while(itr27.hasNext()){  
+          System.out.println(itr27.next());  
+          }  */
+          
+          
+			//	Set
+      /*    HashSet<String> set2=new HashSet();  
+          set2.add("One");    
+          set2.add("Two");    
+          set2.add("Three");   
+          set2.add("Four");  
+          set2.add("Five");  
+          set2.add("Six");  
+          Iterator<String> itset=set2.iterator();  
+          while(itset.hasNext())  
+          {  
+          System.out.println(itset.next());  
+          }  */
+          
+          //Example for duplicates
+        //Creating HashSet and adding elements  
+         /* System.out.println("Hashset with duplicates");
+          HashSet<String> setdup=new HashSet<String>();  
+          setdup.add("Ravi");  
+          setdup.add("Vijay");  
+          setdup.add("Ravi");  
+          setdup.add("Ajay");  
+          //Traversing elements  
+          Iterator<String> itr=setdup.iterator();  
+          while(itr.hasNext()){  
+           System.out.println(itr.next());  
+          }  */
+		/*System.out.println("Various methods on hashset");
+          HashSet<String> set=new HashSet<String>();  
+          set.add("Ravi");  
+          set.add("Vijay");  
+          set.add("Arun");  
+          set.add("Sumit");  
+          System.out.println("An initial list of elements: "+set);  
+          //Removing specific element from HashSet  
+          set.remove("Ravi");  
+          System.out.println("After invoking remove(object) method: "+set);  
+          HashSet<String> set1=new HashSet<String>();  
+          set1.add("Ajay");  
+          set1.add("Gaurav");  
+          set.addAll(set1);  
+          System.out.println("Updated List: "+set);  
+          //Removing all the new elements from HashSet  
+          set.removeAll(set1);  
+          System.out.println("After invoking removeAll() method: "+set);  
+         
+          set.clear();  
+          System.out.println("After invoking clear() method: "+set);  
+		//Sending another type of collection to hashset//concept called hashing
+          ArrayList<String> list=new ArrayList<String>();  
+          list.add("Ravi");  
+          list.add("Vijay");  
+          list.add("Ajay");  
+          list.add("Ravi");  
+          HashSet<String> set5=new HashSet<String>(list);  
+          
+          set5.add("Gaurav"); 
+          set5.add("Gaurav");
           
          
+       
+          Iterator<String> itr11=set5.iterator();  
+          while(itr11.hasNext())  
+          {  
+          System.out.println(itr11.next());  
+          }  
+          
+         
+          //Maheswari--Ravi,Vijay,Ajay,Gaurav
+	//soujanya-Ravi,Vijay,Ajay,Gaurav
+     //Yangnasri--same as soujanya
+          //pushpalatha-same as all
+          //i can't tell the printing order
+          
+          //LinkedHashset
+          System.out.println("Linked Hashset");
+        LinkedHashSet<String> Lset=new LinkedHashSet<String>();  
+          Lset.add("One");    
+          Lset.add("Two");    
+          Lset.add("Three");   
+          Lset.add("Four");  
+          Lset.add("Five");  
+          
+          Iterator<String> ilset=Lset.iterator();  
+          while(ilset.hasNext())  
+          {  
+          System.out.println(ilset.next());  
+          }  
+          //linkedhashset also ignore the duplicate elements
+          System.out.println("Linked hash set ignoring duplicates");
+          LinkedHashSet<String> al=new LinkedHashSet<String>();  
+          al.add("Ravi");  
+          al.add("Vijay");  
+          al.add("Ravi");  
+          al.add("Ajay");  
+          Iterator<String> itr=al.iterator();  
+          while(itr.hasNext()){  
+           System.out.println(itr.next());  
+          }  
+          //Treeset follow ascending order
+          
+          TreeSet<String> Ts=new TreeSet<String>();  
+          Ts.add("Ravi");  
+          Ts.add("Vijay");  
+          Ts.add("Ravi");  
+          Ts.add("Ajay");  
+          //Traversing elements  
+          Iterator<String> itrts=Ts.iterator();  
+          while(itrts.hasNext()){  
+           System.out.println(itrts.next());  
+          }  
+          //output is Ajay Ravi Vijay--default order is ascending only 
+          //to remove the duplicates
+          ArrayList<String> al1=new ArrayList<String>();
+          al1.add("Tataji");
+          al1.add("Pushpa");
+          al1.add("Tataji");
+          al1.add("Pushpa");
+         al1.add("soujanya");
+        		  
+      
+      //}
+        	  //
+        	  
+        	  
+          }
+	//Map
+*/	
+		//Suppose i want to put data as a key value pair data
+		//roll and it's value
+		//key1-value1
+		//key2-value2
 		
+   /*     System.out.println("my hashmap");
+		HashMap<String,Integer> hm1=new HashMap<String,Integer>();
+         hm1.put("Mathsmarks",50);
+         hm1.put("Sciencemarks", 90);
+      Set s1=   hm1.entrySet();
+   Iterator itr5=   s1.iterator();
+   while(itr5.hasNext()){
+	   Map.Entry entry1=   (Map.Entry) itr5.next();
+	   System.out.println(entry1.getKey()+" "+entry1.getValue() );
+   }
+         
+          HashMap<Integer,String> hm=new HashMap<Integer,String>();  
+          //Adding elements to map  
+          hm.put(1,"Amit");  
+          hm.put(5,"Rahul");  
+          hm.put(2,"Jai");  
+          hm.put(6,"Amit");  
+          //Traversing Map  
+          Set set=hm.entrySet();//Converting to Set so that we can traverse  
+          Iterator itr=set.iterator();  
+          while(itr.hasNext()){  
+              //Converting to Map.Entry so that we can get key and value separately  
+        	  
+              Map.Entry entry=(Map.Entry)itr.next();
+           
+              System.out.println(entry.getKey()+" "+entry.getValue());  
+          }   
+          //different examples
+          //in the array a[i]
+          //arraylist al.get(i)
+        // System.out.println(hm.get("tataji"))
+         
+          HashMap<Integer,String> map=new HashMap<Integer,String>();          
+          map.put(100,"Amit");    
+          map.put(101,"Vijay");    
+          map.put(102,"Rahul");  
+          map.put(103, "Gaurav");  
+          map.put(101, "Tataji");
+      
+        System.out.println("Initial list of elements: "+map);  
+        //key-based removal  
+        map.remove(100);  
+        System.out.println("Updated list of elements: "+map);  
+        //value-based removal  
+        map.remove(101);  
+        System.out.println("Updated list of elements: "+map);  
+        //key-value pair based removal  
+        map.remove(102, "Rahul");  
+        System.out.println("Updated list of elements: "+map);  
+          
+        LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();    
+        //.put,.remove,.entryset,.get(key),keyset(),values()
+        //Map.entry methods--getkey() and getvalue();
+        //hm1.contains(key)--boolean
+        lhm.put(100,"Amit");    
+        lhm.put(101,"Vijay");    
+        lhm.put(102,"Rahul");    
+         //Fetching key  
+         System.out.println("Keys: "+lhm.keySet());  
+         //Fetching value  
+         System.out.println("Values: "+lhm.values());  
+         //Fetching key-value pair  
+         System.out.println("Key-Value pairs: "+lhm.entrySet());  
+         
+         
+         TreeMap<Integer,String> THM=new TreeMap<Integer,String>();    
+         THM.put(100,"Amit");    
+         THM.put(102,"Ravi");    
+         THM.put(101,"Vijay");    
+         THM.put(103,"Rahul");    
+         System.out.println("Before invoking remove() method");  
+         for(Map.Entry m:THM.entrySet())  
+         {  
+             System.out.println(m.getKey()+" "+m.getValue());      
+         }  
+         map.remove(102);      
+         System.out.println("After invoking remove() method");  
+         for(Map.Entry m:THM.entrySet())  
+         {  
+             System.out.println(m.getKey()+" "+m.getValue());      
+         }  
+        
+         
+         
+ String str2="yygnasri@accenyture";
+         
+ //Question is : how many times each character is repeated
+ //reverse the string
+ 
+ // y-1 ,a-3......
+ char[] c1=str2.toCharArray();
+ HashMap<Character,Integer> hm4=new HashMap<Character,Integer>();*/
+ //y-2
+ //g-1
+ //n-1
+ //prime numbers 100 prime number
+ //pusha 
+ //
+ /*for(Character c9:c1){
+	 //1st iteration c9=y
+	 //2nd iteration c9=y
+	 //3rd iteration c9=g
+	 if(hm4.containsKey(c9)){
+		 hm4.put(c9, hm4.get(c9)+1);
+	 }
+	 else{
+	 hm4.put(c9, 1);
+	 
+	 }
+	
+	 
+ }
+ System.out.println("hashmap print"+hm4);*/
+        		 
+ 
+         
+      /*   
+         //Explanation of character occurence in a string
+         String s="Tataji@Infosys";
+         HashMap<Character, Integer> hmc=new HashMap<Character,Integer>();
+         char[] carr=s.toCharArray();
+         for(Character c: carr){
+        	 if(hmc.containsKey(c)){
+        		 hmc.put(c, hmc.get(c)+1);
+        	 }
+        	 else{
+        		 hmc.put(c, 1);
+        	 }
+        	
+        	 
+         }
+         System.out.println(s+" : "+hmc);
+         HashMap<Character,Integer> hm6=new   HashMap<Character,Integer>();
+        hm6= Selenium_Demo_Class1.counter("Evoketech");
+        System.out.println("hm6 alues"+hm6);*/
+        //what are the libraries you have used in your project to read/write an excel
+		//one is APachePOI and another JXL
 		
-		
-		
-}
+		ExcelHandling objExcelFile = new ExcelHandling();
+
+	    //Prepare the path of excel file
+
+	    String filePath = System.getProperty("user.dir")+"\\src\\testdata";
+
+	    //Call read file method of the class to read data
+
+	    objExcelFile.readExcel(filePath,"data.xlsx","Details");
+         String s1="data.xlsx";
+         String s2="Details";
+         
+         String[] valueToWrite = {"Mr. E","Noida"};
+         //objExcelFile.writeExcel(filePath,s1,s2,valueToWrite);
+} //Create an array with the data in the same order in which you expect to be filled in excel file
+
+  
+    
+	/*public static HashMap<Character,Integer> counter(String s){
+		   //Explanation of character occurence in a string
+        //String s="Tataji@Infosys";
+        HashMap<Character, Integer> hmc=new HashMap<Character,Integer>();
+        char[] carr=s.toCharArray();
+        for(Character c: carr){
+       	 if(hmc.containsKey(c)){
+       		 hmc.put(c, hmc.get(c)+1);
+       	 }
+       	 else{
+       		 hmc.put(c, 1);
+       	 }
+       	
+       	 
+        }
+        return hmc;
+	}
+	*/
+	
+	
+	public static void takeSnapShot(WebDriver webdriver,String fileWithPath) throws Exception{
+
+        //Convert web driver object to TakeScreenshot
+
+        TakesScreenshot scrShot =((TakesScreenshot)webdriver);
+
+        //Call getScreenshotAs method to create image file
+
+                File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+
+            //Move image file to new destination
+
+                File DestFile=new File(fileWithPath);
+
+                //Copy file at destination
+
+                FileUtils.copyFile(SrcFile, DestFile);
+
+    }
+	
+	
 }
